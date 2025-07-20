@@ -1,0 +1,126 @@
+<div class="modal-overlay" *ngIf="isOpen" (click)="onClose()">
+    <div class="modal-content" (click)="$event.stopPropagation()">
+        <div class="modal-header">
+            <h2>{{ tarefa?.nomeTarefa }}</h2>
+             <div class="modal-header-actions"> 
+                <button class="delete-task-button" (click)="deleteCurrentTask()">
+                    <i class="fas fa-trash-alt"></i> Excluir Tarefa
+                </button>
+                <button class="close-button" (click)="onClose()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+        </div>
+
+        <div class="modal-body">
+            <div class="modal-left-column">
+                <div class="modal-section subtask-section">
+                    <h3>Subtarefas</h3>
+                    <div class="subtask-content-area">
+                        <ng-container *ngIf="tarefa?.subtarefas as subtarefas">
+                            <div class="subtask-table-header" *ngIf="subtarefas.length > 0">
+                                <span class="subtask-header-name">Tarefa</span>
+                                <span class="subtask-header-responsible">Responsável</span>
+                                <span class="subtask-header-status">Status</span>
+                            </div>
+                            <div class="subtask-list-table">
+                                <div class="subtask-item" *ngFor="let sub of subtarefas">
+                                    <div class="subtask-column subtask-name-column">
+                                        <i class="fas fa-clipboard-list icon-name-task"></i>
+                                        <span class="subtask-name">{{ sub.nomeTarefa }}</span>
+                                    </div>
+                                    <div class="subtask-column subtask-responsible-column">
+                                        <div class="dropdown-container">
+                                            <div class="dropdown-selected-value" (click)="toggleSubtaskResponsibleDropdown(sub.id || '')">
+                                                <span>{{ sub.responsavel || 'Não atribuído' }}</span>
+                                                <i class="fas fa-chevron-down dropdown-arrow"></i>
+                                            </div>
+                                            <div class="dropdown-options" *ngIf="showSubtaskResponsibleDropdown[sub.id || '']">
+                                                <div class="dropdown-option" *ngFor="let user of availableUsers" (click)="selectSubtaskResponsible(sub, user.name)">
+                                                    <span class="avatar-sm">{{ user.name.charAt(0) }}</span> {{ user.name }}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="subtask-column subtask-status-column">
+                                        <select [ngModel]="sub.statusTarefa" (ngModelChange)="updateSubtaskStatus(sub, $event)" class="status-select-subtask">
+                                            <option *ngFor="let statusOption of status" [ngValue]="statusOption.value">{{ statusOption.label }}</option>
+                                        </select>
+                                        <div class="current-status-display-subtask" [ngClass]="getStatusClass(sub.statusTarefa)">
+                                            {{ getStatusLabel(sub.statusTarefa) }}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </ng-container>
+
+                        <div *ngIf="(!tarefa?.subtarefas?.length && !addingSubtask)" class="no-subtasks-message">
+                            Nenhuma subtarefa adicionada.
+                        </div>
+
+                        <div *ngIf="addingSubtask" class="quick-add-subtask-container">
+                            <textarea
+                                placeholder="O que precisa ser feito na subtarefa?"
+                                [(ngModel)]="newSubtaskTitle"
+                                class="quick-add-textarea"
+                                (keydown.enter)="addNewSubtask(); $event.preventDefault()"
+                            ></textarea>
+                            <div class="quick-add-actions">
+                                <button class="add-new-subtask-button" (click)="addNewSubtask()">Adicionar subtarefa</button>
+                                <button class="cancel-add-subtask-button" (click)="cancelAddSubtask()"><i class="fas fa-times"></i></button>
+                            </div>
+                        </div>
+                    </div> <button class="add-subtask-button" *ngIf="!addingSubtask" (click)="openAddSubtask()">
+                        <i class="fas fa-plus"></i> Adicionar uma subtarefa
+                    </button>
+                </div>
+                
+            </div>
+
+            <div class="modal-info-panel">
+                <div class="info-item status-selector-container">
+                    <h4>Status da Tarefa</h4>
+                    <div class="status-dropdown">
+                        <select [ngModel]="tarefa?.statusTarefa" (ngModelChange)="onStatusChange($event)" class="status-select">
+                            <option *ngFor="let statusOption of status" [ngValue]="statusOption.value">{{ statusOption.label }}</option>
+                        </select>
+                        <i class="fas fa-chevron-down dropdown-icon"></i>
+                    </div>
+                    <div class="current-status-display" [ngClass]="getStatusClass(tarefa?.statusTarefa)">
+                        {{ getStatusLabel(tarefa?.statusTarefa) }}
+                    </div>
+                </div>
+
+                <div class="info-item">
+                    <h4>Responsável</h4>
+                    <div class="responsible-info dropdown-container">
+                        <div class="dropdown-selected-value" (click)="toggleResponsibleDropdown()">
+                            <ng-template #defaultResponsibleIcon>
+                                <i class="fas fa-question-circle default-icon"></i>
+                            </ng-template>
+                            <span>{{ tarefa?.responsavel || 'Não atribuído' }}</span>
+                            <i class="fas fa-chevron-down dropdown-arrow"></i>
+                        </div>
+                        <div class="dropdown-options" *ngIf="showResponsibleDropdown">
+                            <div class="dropdown-option" *ngFor="let user of availableUsers" (click)="selectResponsible(user.name)">
+                                <span class="avatar-sm">{{ user.name.charAt(0) }}</span> {{ user.name }}
+                            </div>
+                            <div class="dropdown-option add-new" (click)="promptNewResponsible()">
+                                <i class="fas fa-user-plus"></i> Adicionar novo responsável
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="info-item">
+                    <h4>Data limite</h4>
+                    <div class="date-picker-container">
+                        <input type="date" [ngModel]="tarefa?.dataFim" (ngModelChange)="onDateLimitChange($event)" class="date-input">
+                        <i class="fas fa-calendar-alt calendar-icon"></i>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>

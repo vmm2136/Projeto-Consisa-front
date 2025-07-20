@@ -1,0 +1,86 @@
+<div class="main-container">
+    <div class="header-board">
+        <div class="search-bar">
+            <input type="text" placeholder="Pesquisar Tarefa">
+            <button class="icon-button"><i class="fas fa-search"></i></button>
+        </div>
+        <div class="header-actions">
+            <button class="add-user-button" (click)="addNewUser()">
+                <i class="fas fa-user-plus"></i> Adicionar Usuário
+            </button>
+        </div>
+    </div>
+
+    <div class="board-columns-wrapper">
+        <div class="column">
+            <div class="column-header">
+                <h3 class="column-title">ITENS PENDENTES</h3>
+                <span class="item-count">{{ filtrarTarefas('AGUARDANDO').length }}</span>
+            </div>
+            <div class="column-content">
+                <div [ngClass]="getTaskCardClass(item)" *ngFor="let item of filtrarTarefas('AGUARDANDO')" (click)="openTaskDetails(item)">
+                    <div class="card-top">
+                        <span class="card-title">{{item.nomeTarefa}}</span>
+                        <span *ngIf="isTaskOverdue(item)" class="tag-atrasada">ATRASADA</span>
+                    </div>
+                    </div>
+                <div *ngIf="adicionarStatusTarefa === 'AGUARDANDO'" class="quick-add-task-container">
+                    <textarea
+                        placeholder="O que precisa ser feito?"
+                        [(ngModel)]="newTaskTitle"
+                        class="quick-add-textarea"
+                        (keydown.enter)="addNewTask(); $event.preventDefault()"
+                    ></textarea>
+                    <div class="quick-add-actions">
+                        <button class="add-new-task-button" (click)="addNewTask()">Adicionar</button>
+                        <button class="cancel-add-task-button" (click)="cancelQuickAddTask()"><i class="fas fa-times"></i></button>
+                    </div>
+                </div>
+
+                <button
+                    class="add-task-button"
+                    *ngIf="adicionarStatusTarefa !== 'AGUARDANDO'"
+                    (click)="openQuickAddTask('AGUARDANDO')">
+                    <i class="fas fa-plus"></i> Criar
+                </button>
+            </div>
+        </div>
+
+<div class="column">
+            <div class="column-header">
+                <h3 class="column-title">EM ANDAMENTO</h3>
+                <span class="item-count">{{ filtrarTarefas('INICIADA').length }}</span>
+            </div>
+            <div class="column-content">
+                <div [ngClass]="getTaskCardClass(item)" *ngFor="let item of filtrarTarefas('INICIADA')" (click)="openTaskDetails(item)">
+                    <div class="card-top">
+                        <span class="card-title">{{item.nomeTarefa}}</span>
+                        <span *ngIf="isTaskOverdue(item)" class="tag-atrasada">ATRASADA</span>
+                    </div>
+                    </div>
+            </div>
+        </div>
+
+        <div class="column">
+            <div class="column-header">
+                <h3 class="column-title">ITENS CONCLUÍDOS</h3>
+                <span class="item-count">{{ filtrarTarefas('CONCLUIDA').length }}</span>
+            </div>
+            <div class="column-content">
+                <div [ngClass]="getTaskCardClass(item)" *ngFor="let item of filtrarTarefas('CONCLUIDA')" (click)="openTaskDetails(item)">
+                    <div class="card-top">
+                        <span class="card-title">{{item.nomeTarefa}}</span>
+                    </div>
+                    </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<app-detalhes-tarefa
+  [isOpen]="isModalOpen"
+  [tarefa]="tarefaSelecionada"
+  (close)="closeTaskDetails()"
+  (tarefaAtualizada)="buscarTarefas()"
+  (tarefaAtualizada)="onTarefaUpdated($event)">  
+</app-detalhes-tarefa>
