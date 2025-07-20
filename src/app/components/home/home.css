@@ -264,7 +264,7 @@ body { font-family: 'Open Sans', sans-serif; }
     background-color: #fff;
     border-radius: 3px;
     box-shadow: 0 1px 0 rgba(9, 30, 66, 0.25);
-    padding: 8px; /* Padding interno menor */
+    padding: 8px; 
     margin-bottom: 8px;
     display: flex;
     flex-direction: column;
@@ -277,10 +277,10 @@ body { font-family: 'Open Sans', sans-serif; }
     border: 1px solid #dfe1e6;
     border-radius: 3px;
     font-size: 0.9em;
-    resize: vertical; /* Permite redimensionar verticalmente */
-    min-height: 40px; /* Altura mínima */
+    resize: vertical; 
+    min-height: 40px; 
     outline: none;
-    box-sizing: border-box; /* Garante que padding e borda não aumentem a largura */
+    box-sizing: border-box; 
 }
 
 .quick-add-textarea::placeholder {
@@ -347,21 +347,21 @@ body { font-family: 'Open Sans', sans-serif; }
 
 .header {
     display: flex;
-    justify-content: space-between; /* Para espaçar a barra de busca e os botões */
+    justify-content: space-between; 
     align-items: center;
     padding: 20px;
-    background-color: #f0f2f5; /* Um fundo leve */
+    background-color: #f0f2f5; 
     border-bottom: 1px solid #e0e0e0;
 }
 
 .header-actions {
     display: flex;
-    gap: 15px; /* Espaçamento entre os botões */
+    gap: 15px; 
 }
 
 .add-user-button,
 .add-task-button {
-    background-color: #007bff; /* Azul padrão */
+    background-color: #007bff; 
     color: white;
     padding: 10px 18px;
     border: none;
@@ -370,9 +370,9 @@ body { font-family: 'Open Sans', sans-serif; }
     font-size: 0.9em;
     font-weight: 500;
     transition: background-color 0.2s ease, transform 0.1s ease;
-    display: flex; /* Para alinhar ícone e texto */
+    display: flex; 
     align-items: center;
-    gap: 8px; /* Espaçamento entre ícone e texto */
+    gap: 8px; 
 }
 
 .add-user-button:hover,
@@ -386,32 +386,30 @@ body { font-family: 'Open Sans', sans-serif; }
     font-size: 1.1em;
 }
 
-/* Opcional: ajuste a cor do botão de usuário se quiser diferenciá-lo */
 .add-user-button {
-    background-color: #28a745; /* Verde, por exemplo */
+    background-color: #28a745; 
 }
 
 .add-user-button:hover {
     background-color: #218838;
 }
 
-/* ... o restante do seu kanban-board css ... */
 .kanban-board {
     display: flex;
     padding: 20px;
     gap: 20px;
-    overflow-x: auto; /* Permite rolagem horizontal se muitas colunas */
+    overflow-x: auto; 
 }
 
 .kanban-column {
     flex: 1;
-    min-width: 280px; /* Largura mínima para as colunas */
+    min-width: 280px; 
     background-color: #fff;
     border-radius: 10px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
     display: flex;
     flex-direction: column;
-    height: fit-content; /* Coluna se adapta ao conteúdo */
+    height: fit-content; 
 }
 
 .column-header {
@@ -460,8 +458,8 @@ body { font-family: 'Open Sans', sans-serif; }
     display: flex;
     flex-direction: column;
     gap: 12px;
-    overflow-y: auto; /* Permite rolagem dentro da lista de tarefas */
-    max-height: calc(100vh - 250px); /* Ajuste conforme a altura da sua tela e outros elementos */
+    overflow-y: auto; 
+    max-height: calc(100vh - 250px); 
 }
 
 .task-card {
@@ -471,7 +469,7 @@ body { font-family: 'Open Sans', sans-serif; }
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
     cursor: grab;
     transition: transform 0.2s ease, box-shadow 0.2s ease;
-    border-left: 5px solid #007bff; /* Borda colorida para destaque */
+    border-left: 5px solid #007bff; 
     font-size: 0.95em;
     color: #444;
 }
@@ -490,30 +488,30 @@ body { font-family: 'Open Sans', sans-serif; }
     color: #6c757d;
     cursor: pointer;
     transition: background-color 0.2s ease;
-    border: 2px dashed #ced4da; /* Borda pontilhada para indicar "adicionar" */
+    border: 2px dashed #ced4da; 
 }
 
 .kanban-column.add-column:hover {
     background-color: #dde1e5;
 }
 
-/* Estilo para o card de tarefa quando estiver atrasado */
+
 .task-card.task-atrasada {
-    border: 2px solid #e74c3c; /* Borda vermelha para destaque */
-    box-shadow: 0 4px 8px rgba(231, 76, 60, 0.2); /* Sombra sutil */
-    animation: pulse-border 1.5s infinite alternate; /* Animação opcional */
+    border: 2px solid #e74c3c; 
+    box-shadow: 0 4px 8px rgba(231, 76, 60, 0.2); 
+    animation: pulse-border 1.5s infinite alternate; 
     background-color: #fefefe;
     padding: 15px;
     border-radius: 8px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
     cursor: grab;
     transition: transform 0.2s ease, box-shadow 0.2s ease;
-    border-left: 5px solid #007bff; /* Borda colorida para destaque */
+    border-left: 5px solid #007bff; 
     font-size: 0.95em;
     color: #444;
 }
 
-/* Opcional: Animação para a borda da tarefa atrasada */
+
 @keyframes pulse-border {
     from {
         border-color: #e74c3c;
