@@ -59,42 +59,35 @@ constructor(
         this.cdr.detectChanges();
   }
 
-   // --- Lógica para verificar se a tarefa está atrasada (apenas no Frontend) ---
   isTaskOverdue(tarefa: Tarefa): boolean {
     if (!tarefa.dataFim) {
-      return false; // Não está atrasada se não tem data limite
+      return false; 
     }
 
-    // Tarefas CONCLUIDAS ou CANCELADAS NUNCA são consideradas atrasadas
     if (tarefa.statusTarefa === 'CONCLUIDA' || tarefa.statusTarefa === 'CANCELADA') {
       return false;
     }
 
     const today = new Date();
-    today.setHours(0, 0, 0, 0); // Zera a hora para comparar apenas a data
+    today.setHours(0, 0, 0, 0); 
 
-    const dueDate = new Date(tarefa.dataFim + 'T00:00:00'); // Garante que a data é tratada como UTC-0 ou conforme o fuso
-    dueDate.setHours(0, 0, 0, 0); // Zera a hora para comparar apenas a data
+    const dueDate = new Date(tarefa.dataFim + 'T00:00:00'); 
+    dueDate.setHours(0, 0, 0, 0); 
 
-    return dueDate < today; // Atrasada se a data limite for anterior a "hoje"
+    return dueDate < today; 
   }
-  // --- Fim da lógica de atraso no Frontend ---
 
-  // SIMPLIFICADO: A função filtrarTarefas agora só verifica o status REAL da tarefa.
-  // A lógica de "atrasado" é APENAS para estilização.
   filtrarTarefas(statusColuna: string): Tarefa[] {
     return this.arrayTarefas.filter(tarefa => {
         return tarefa.statusTarefa === statusColuna;
     });
   }
 
-  // Permanece a mesma: determina as classes CSS com base no status REAL E na condição de atraso
   getTaskCardClass(tarefa: Tarefa): string {
     let classes = 'task-card';
     if (tarefa.statusTarefa) {
       classes += ` status-tag-${tarefa.statusTarefa.toLowerCase().replace(/_/g, '-')}`;
     }
-    // Adiciona 'task-atrasada' se a tarefa for considerada atrasada pela nossa lógica frontend
     if (this.isTaskOverdue(tarefa)) {
         classes += ' task-atrasada';
     }
