@@ -1,29 +1,29 @@
 <div class="modal-overlay" *ngIf="isOpen" (click)="onClose()">
     <div class="modal-content" (click)="$event.stopPropagation()">
-        <div class="modal-header">
-            <input
-                type="text"
-                class="task-name-input"
-                [(ngModel)]="nomeParaAtualizar"
-                (blur)="atualizarNomeDaTarefa()"
-                placeholder="Nome da Tarefa"
-                *ngIf="tarefa" />
-            <div class="modal-header-actions">
-                <button class="delete-task-button" (click)="deleteCurrentTask()">
-                    <i class="fas fa-trash-alt"></i> Excluir Tarefa
-                </button>
-                <button class="close-button" (click)="onClose()">
-                    <i class="fas fa-times"></i>
-                </button>
-            </div>
+    <div class="modal-header">
+        <input
+            type="text"
+            class="task-name-input"
+            [(ngModel)]="nomeParaAtualizar"
+            (blur)="atualizarNomeDaTarefa()"
+            placeholder="Nome da Tarefa"
+            *ngIf="tarefa" />
+        <div class="modal-header-actions">
+            <button class="delete-task-button" (click)="deleteCurrentTask()">
+                <i class="fas fa-trash-alt"></i> Excluir Tarefa
+            </button>
+            <button class="close-button" (click)="onClose()">
+                <i class="fas fa-times"></i>
+            </button>
         </div>
+    </div>
 
         <div class="modal-body">
             <div class="modal-left-column">
                 <div class="modal-section subtask-section">
                     <h3>Subtarefas</h3>
                     <div class="subtask-content-area">
-                        <ng-container *ngIf="tarefa?.subtarefas as subtarefas">
+                        <ng-container *ngIf="tarefa?.tarefasFilhas as subtarefas">
                             <div class="subtask-table-header" *ngIf="subtarefas.length > 0">
                                 <span class="subtask-header-name">Tarefa</span>
                                 <span class="subtask-header-responsible">Responsável</span>
@@ -38,7 +38,7 @@
                                     <div class="subtask-column subtask-responsible-column">
                                         <div class="dropdown-container">
                                             <div class="dropdown-selected-value" (click)="toggleSubtaskResponsibleDropdown(sub.id || '')">
-                                                <span>{{ sub.responsavel || 'Não atribuído' }}</span>
+                                                <span>{{ sub.Usuario || 'Não atribuído' }}</span>
                                                 <i class="fas fa-chevron-down dropdown-arrow"></i>
                                             </div>
                                             <div class="dropdown-options" *ngIf="showSubtaskResponsibleDropdown[sub.id || '']">
@@ -49,9 +49,11 @@
                                         </div>
                                     </div>
                                     <div class="subtask-column subtask-status-column">
-                                        <select [ngModel]="sub.statusTarefa" (ngModelChange)="updateSubtaskStatus(sub, $event)" class="status-select-subtask">
-                                            <option *ngFor="let statusOption of status" [ngValue]="statusOption.value">{{ statusOption.label }}</option>
-                                        </select>
+                                        <div class="subtask-status-select-wrapper">
+                                            <select [ngModel]="sub.statusTarefa" (ngModelChange)="updateSubtaskStatus(sub, $event)" class="status-select-subtask">
+                                                <option *ngFor="let statusOption of status" [ngValue]="statusOption.value">{{ statusOption.label }}</option>
+                                            </select>
+                                            <i class="fas fa-chevron-down dropdown-icon"></i> </div>
                                         <div class="current-status-display-subtask" [ngClass]="getStatusClass(sub.statusTarefa)">
                                             {{ getStatusLabel(sub.statusTarefa) }}
                                         </div>
@@ -60,7 +62,7 @@
                             </div>
                         </ng-container>
 
-                        <div *ngIf="(!tarefa?.subtarefas?.length && !addingSubtask)" class="no-subtasks-message">
+                        <div *ngIf="(!tarefa?.tarefasFilhas?.length && !addingSubtask)" class="no-subtasks-message">
                             Nenhuma subtarefa adicionada.
                         </div>
 

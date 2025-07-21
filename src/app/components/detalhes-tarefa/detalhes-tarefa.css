@@ -1,370 +1,248 @@
-/* Estilos para o overlay e modal principal */
+/* Estilos para o overlay do modal */
 .modal-overlay {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.6); /* Fundo semi-transparente */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 1000;
+    background-color: rgba(0, 0, 0, 0.6); /* Fundo semi-transparente escuro */
+    display: flex; /* Para centralizar o modal-content */
+    justify-content: center; /* Centraliza horizontalmente */
+    align-items: center; /* Centraliza verticalmente */
+    z-index: 1000; /* Garante que o modal esteja acima de outros elementos */
+    padding: 15px; /* Padding para evitar que o conteúdo toque as bordas em telas pequenas */
+    box-sizing: border-box; /* Inclui padding e borda no tamanho total */
 }
 
+/* Estilos para o conteúdo principal do modal */
 .modal-content {
-    background-color: #fff;
-    border-radius: 12px;
-    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
-    width: 90%;
-    max-width: 950px; /* Ajuste o tamanho máximo conforme sua preferência */
-    max-height: 90vh; /* Para garantir que o modal caiba em telas menores */
+    background-color: #ffffff; /* Fundo branco */
+    border-radius: 8px; /* Cantos arredondados */
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2); /* Sombra para dar profundidade */
+    width: 90%; /* Largura padrão, ajusta para telas menores */
+    max-width: 900px; /* Largura máxima para telas grandes */
+    max-height: 90vh; /* Altura máxima para não transbordar em telas menores */
     display: flex;
-    flex-direction: column;
-    overflow: hidden; /* Para lidar com conteúdo que transborda */
-    animation: fadeInScale 0.3s ease-out forwards;
+    flex-direction: column; /* Organiza header, body verticalmente */
+    overflow: hidden; /* Esconde conteúdo que transborda */
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Fonte amigável */
+    color: #333; /* Cor do texto padrão */
 }
 
-@keyframes fadeInScale {
-    from {
-        opacity: 0;
-        transform: scale(0.95);
-    }
-    to {
-        opacity: 1;
-        transform: scale(1);
-    }
-}
-
+/* Estilos para o cabeçalho do modal */
 .modal-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 15px 25px;
-    border-bottom: 1px solid #e0e0e0;
-    background-color: #f8f9fa;
+    padding: 20px 25px;
+    border-bottom: 1px solid #eee; /* Linha divisória sutil */
+    background-color: #f9f9f9; /* Fundo levemente cinza */
+    gap: 15px; /* Espaço entre o input e as ações */
+    flex-wrap: wrap; /* Permite que os itens quebrem linha em telas menores */
 }
 
-.modal-header h2 {
-    margin: 0;
+.task-name-input {
+    flex-grow: 1; /* Permite que o input preencha o espaço disponível */
+    font-size: 1.8em; /* Tamanho da fonte grande para o título */
+    font-weight: 600; /* Negrito */
+    border: none; /* Sem borda */
+    outline: none; /* Remove o outline ao focar */
+    padding: 5px 0;
+    background-color: transparent; /* Fundo transparente */
     color: #333;
-    font-size: 1.6em;
-    font-weight: 600;
+    min-width: 150px; /* Garante um tamanho mínimo para o input */
+}
+
+.task-name-input::placeholder {
+    color: #aaa;
+}
+
+.modal-header-actions {
+    display: flex;
+    gap: 10px; /* Espaço entre os botões */
+    flex-wrap: wrap; /* Permite que os botões quebrem linha */
+}
+
+.delete-task-button,
+.close-button {
+    background-color: #f44336; /* Vermelho para excluir */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 15px;
+    cursor: pointer;
+    font-size: 0.9em;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: background-color 0.2s ease;
 }
 
 .close-button {
-    background: none;
-    border: none;
-    font-size: 1.8em;
-    color: #888;
-    cursor: pointer;
-    transition: color 0.2s ease;
+    background-color: #999; /* Cinza para fechar */
+}
+
+.delete-task-button:hover {
+    background-color: #d32f2f;
 }
 
 .close-button:hover {
-    color: #555;
+    background-color: #777;
 }
 
+/* Estilos para o corpo do modal */
 .modal-body {
     display: flex;
-    flex-grow: 1; /* Permite que o body preencha o espaço restante */
-    padding: 20px;
+    flex-direction: column; /* Padrão vertical em telas pequenas */
+    padding: 25px;
+    gap: 30px; /* Espaço entre as colunas */
     overflow-y: auto; /* Adiciona scroll se o conteúdo for muito longo */
+    flex-grow: 1; /* Permite que o body ocupe o espaço restante */
+}
+
+/* Quando a tela for maior, organize as colunas lado a lado */
+@media (min-width: 768px) {
+    .modal-body {
+        flex-direction: row; /* Colunas lado a lado */
+    }
 }
 
 .modal-left-column {
-    flex: 3; /* Ocupa mais espaço */
-    padding-right: 25px;
-    border-right: 1px solid #e0e0e0;
+    flex: 2; /* Ocupa 2 partes do espaço */
+    min-width: 300px; /* Mínimo para evitar quebra em telas menores */
 }
 
 .modal-info-panel {
-    flex: 1.5; /* Ocupa menos espaço */
-    padding-left: 25px;
+    flex: 1; /* Ocupa 1 parte do espaço */
+    display: flex;
+    flex-direction: column;
+    gap: 20px; /* Espaço entre os itens de informação */
+    min-width: 250px; /* Mínimo para evitar quebra */
 }
 
-.modal-section h3 {
+.modal-section {
+    margin-bottom: 20px;
+}
+
+.modal-section h3, .modal-info-panel h4 {
     font-size: 1.2em;
     color: #555;
     margin-bottom: 15px;
-    border-bottom: 1px solid #f0f0f0;
+    border-bottom: 1px solid #eee;
     padding-bottom: 8px;
 }
 
-/* --- Estilos para a seção de subtarefas --- */
+/* --- Subtarefas Section --- */
 .subtask-section {
-    margin-bottom: 30px;
+    background-color: #fcfcfc;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.subtask-section h3 {
+    margin-top: 0;
+    border-bottom: none; /* Remove a borda para h3 na seção */
+    color: #333;
 }
 
 .subtask-content-area {
-    margin-bottom: 15px;
+    flex-grow: 1;
+    min-height: 100px; /* Um mínimo para a área de subtarefas */
 }
 
 .subtask-table-header {
     display: grid;
-    grid-template-columns: 3fr 1.5fr 1fr; /* Ajuste as proporções conforme desejar */
-    background-color: #f1f4f8; /* Um tom de azul/cinza claro */
-    padding: 10px 15px;
-    border-radius: 8px 8px 0 0; /* Bordas arredondadas apenas no topo */
+    grid-template-columns: 2fr 1.5fr 1fr; /* Colunas para nome, responsável, status */
+    gap: 10px;
+    padding-bottom: 10px;
+    margin-bottom: 10px;
+    border-bottom: 1px solid #ddd;
     font-weight: bold;
-    color: #495057; /* Texto mais escuro */
-    text-transform: uppercase;
-    font-size: 0.8em;
-    letter-spacing: 0.5px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05); /* Sombra suave */
-}
-
-.subtask-list-table {
-    border: 1px solid #e9ecef; /* Borda suave */
-    border-top: none; /* Não repete a borda de cima */
-    border-radius: 0 0 8px 8px; /* Bordas arredondadas apenas na parte inferior */
-    overflow: hidden; /* Garante que o conteúdo não vaze */
-    max-height: 250px; /* Limita a altura e adiciona scroll */
-    overflow-y: auto;
-    background-color: #fff;
+    color: #666;
+    font-size: 0.9em;
 }
 
 .subtask-item {
     display: grid;
-    grid-template-columns: 3fr 1.5fr 1fr; /* As mesmas proporções do cabeçalho */
-    padding: 12px 15px;
-    border-bottom: 1px solid #f8f9fa; /* Linha divisória mais sutil */
+    grid-template-columns: 2fr 1.5fr 1fr;
+    gap: 10px;
+    padding: 10px 0;
+    border-bottom: 1px dashed #eee; /* Linha pontilhada para separar subtarefas */
     align-items: center;
-    font-size: 0.9em;
-    transition: background-color 0.2s ease;
 }
 
 .subtask-item:last-child {
-    border-bottom: none; /* Remove a borda do último item */
-}
-
-.subtask-item:hover {
-    background-color: #fefefe; /* Leve destaque ao passar o mouse */
+    border-bottom: none; /* Remove a borda da última subtarefa */
 }
 
 .subtask-column {
-    padding: 0 5px;
-    /* Ajustes para alinhar conteúdo dentro das colunas */
     display: flex;
     align-items: center;
+    /* Ajustes para alinhar o conteúdo */
 }
 
-/* Coluna de Nome da Subtarefa */
 .subtask-name-column {
-    font-weight: 500;
-    color: #343a40;
+    gap: 8px;
 }
 
 .icon-name-task {
-    color: #007bff; /* Cor do ícone da tarefa */
-    margin-right: 8px;
-    font-size: 1.1em;
+    color: #007bff; /* Azul para o ícone de tarefa */
 }
 
-/* --- Estilos para o dropdown de Responsável --- */
-.dropdown-container {
-    position: relative;
-    width: 100%;
+.subtask-name {
+    font-size: 1em;
+    color: #444;
 }
 
-.dropdown-selected-value {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    padding: 6px 10px;
-    border: 1px solid #ced4da;
-    border-radius: 6px;
-    cursor: pointer;
-    background-color: #fff;
-    transition: all 0.2s ease;
-    font-size: 0.9em;
-}
-
-.dropdown-selected-value:hover {
-    border-color: #80bdff;
-    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
-}
-
-.dropdown-selected-value .dropdown-arrow {
-    margin-left: auto;
-    font-size: 0.8em;
-    color: #6c757d;
-}
-
-.avatar-sm {
-    width: 28px;
-    height: 28px;
-    border-radius: 50%;
-    background-color: #6f42c1; /* Cor roxa para avatares */
-    color: #fff;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 0.7em;
-    font-weight: bold;
-    text-transform: uppercase;
-}
-
-.dropdown-options {
-    position: absolute;
-    top: 100%;
-    left: 0;
-    width: 100%;
-    background-color: #fff;
-    border: 1px solid #ced4da;
-    border-radius: 6px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    z-index: 10;
-    max-height: 200px;
-    overflow-y: auto;
-    margin-top: 5px; /* Pequeno espaçamento do item selecionado */
-}
-
-.dropdown-option {
-    padding: 8px 10px;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    cursor: pointer;
-    transition: background-color 0.2s ease;
-}
-
-.dropdown-option:hover {
-    background-color: #e9ecef;
-}
-
-.dropdown-option.add-new {
-    border-top: 1px solid #e0e0e0;
-    color: #007bff;
-    font-weight: 500;
-}
-
-/* --- Estilos para o Status da Subtarefa --- */
-/* Esconde o select nativo e mostra o badge customizado */
-.subtask-status-column {
-    position: relative; /* Para posicionar o select por cima do display */
-}
-
-.status-select-subtask {
-    /* Esconde o select nativo */
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    opacity: 0; /* Torna-o invisível */
-    cursor: pointer;
-    z-index: 5; /* Garante que ele possa ser clicado por cima do div de display */
-}
-
-.current-status-display-subtask {
-    /* Este é o "badge" que você vê */
-    background-color: #f0f0f0;
-    color: #555;
-    padding: 6px 12px;
-    border-radius: 20px; /* Bordas bem arredondadas para parecer um badge */
-    font-size: 0.75em;
-    font-weight: bold;
-    text-transform: uppercase;
+.no-subtasks-message {
     text-align: center;
-    white-space: nowrap; /* Evita que o texto quebre */
-    transition: background-color 0.2s ease, color 0.2s ease;
-    min-width: 80px; /* Garante uma largura mínima para todos os badges */
-    display: inline-flex; /* Para centralizar o texto verticalmente */
-    justify-content: center;
-    align-items: center;
+    color: #888;
+    padding: 20px;
+    font-style: italic;
 }
 
-/* Classes de cor para cada status */
-.status-aguardando {
-    background-color: #ffc107; /* Amarelo */
-    color: #343a40; /* Texto escuro para contraste */
-}
-
-.status-em_andamento {
-    background-color: #007bff; /* Azul */
-    color: #fff;
-}
-
-.status-concluida {
-    background-color: #28a745; /* Verde */
-    color: #fff;
-}
-
-.status-cancelada {
-    background-color: #dc3545; /* Vermelho */
-    color: #fff;
-}
-
-/* Hover no badge - pode mostrar um ícone de edição ou mudar a cor */
-.current-status-display-subtask:hover {
-    background-color: #e0e0e0; /* Fica mais claro ao passar o mouse */
-    cursor: pointer;
-}
-/* Quando o select é focado (mesmo que invisível), ele pode dar um efeito no display */
-.status-select-subtask:focus + .current-status-display-subtask {
-    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25); /* Efeito de foco azul */
-}
-
-
-/* --- Estilos para Adicionar Nova Subtarefa --- */
-.add-subtask-button {
-    background-color: #007bff;
-    color: white;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    font-size: 0.9em;
-    font-weight: 500;
-    transition: background-color 0.2s ease, transform 0.1s ease;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    margin-top: 20px; /* Espaço acima do botão */
-}
-
-.add-subtask-button:hover {
-    background-color: #0056b3;
-    transform: translateY(-1px);
-}
-
+/* Quick Add Subtask */
 .quick-add-subtask-container {
-    background-color: #f9f9f9;
-    border: 1px solid #e0e0e0;
-    border-radius: 8px;
-    padding: 15px;
-    margin-top: 20px;
-    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.05);
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 15px;
+    padding: 10px;
+    border: 1px solid #cceeff; /* Borda suave */
+    border-radius: 6px;
+    background-color: #e6f7ff; /* Fundo azul claro */
 }
 
 .quick-add-textarea {
-    width: calc(100% - 20px);
-    padding: 10px;
-    border: 1px solid #ced4da;
-    border-radius: 6px;
-    font-size: 1em;
-    resize: vertical; /* Permite redimensionar verticalmente */
+    width: 100%;
     min-height: 60px;
-    margin-bottom: 10px;
-    box-sizing: border-box; /* Inclui padding e border na largura */
+    padding: 10px;
+    border: 1px solid #b3e0ff;
+    border-radius: 4px;
+    font-family: inherit;
+    font-size: 0.95em;
+    resize: vertical; /* Permite redimensionar verticalmente */
+    box-sizing: border-box;
 }
 
 .quick-add-actions {
     display: flex;
-    justify-content: flex-end; /* Alinha botões à direita */
     gap: 10px;
+    justify-content: flex-end; /* Alinha botões à direita */
 }
 
 .add-new-subtask-button {
-    background-color: #28a745; /* Verde */
+    background-color: #28a745; /* Verde para adicionar */
     color: white;
-    padding: 8px 15px;
     border: none;
-    border-radius: 6px;
+    border-radius: 5px;
+    padding: 8px 15px;
     cursor: pointer;
-    font-size: 0.85em;
-    font-weight: 500;
+    font-size: 0.9em;
     transition: background-color 0.2s ease;
 }
 
@@ -373,598 +251,245 @@
 }
 
 .cancel-add-subtask-button {
-    background-color: #6c757d; /* Cinza */
+    background-color: #dc3545; /* Vermelho para cancelar */
     color: white;
-    padding: 8px 15px;
     border: none;
-    border-radius: 6px;
+    border-radius: 5px;
+    padding: 8px 12px;
     cursor: pointer;
-    font-size: 0.85em;
-    font-weight: 500;
+    font-size: 0.9em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     transition: background-color 0.2s ease;
 }
 
 .cancel-add-subtask-button:hover {
-    background-color: #5a6268;
+    background-color: #c82333;
 }
 
-.no-subtasks-message {
-    text-align: center;
-    padding: 30px;
-    color: #888;
-    font-style: italic;
-    background-color: #fefefe;
+.add-subtask-button {
+    background-color: #007bff; /* Azul para adicionar subtarefa */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 15px;
+    cursor: pointer;
+    font-size: 1em;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 15px;
+    justify-content: center; /* Centraliza o texto e ícone no botão */
+    transition: background-color 0.2s ease;
+}
+
+.add-subtask-button:hover {
+    background-color: #0056b3;
+}
+
+/* --- Info Panel Section --- */
+.info-item {
+    background-color: #f9f9f9;
     border: 1px solid #eee;
     border-radius: 8px;
-    margin-top: 10px;
-}
-
-/* --- Estilos para o painel de informações da tarefa principal (modal-info-panel) --- */
-.info-item {
-    margin-bottom: 25px;
+    padding: 15px;
 }
 
 .info-item h4 {
-    font-size: 1em;
-    color: #666;
+    margin-top: 0;
     margin-bottom: 10px;
-    text-transform: uppercase;
-    font-weight: 600;
+    font-size: 1.1em;
+    color: #444;
 }
 
-/* Estilo para o dropdown de status da tarefa principal (similar ao da subtarefa) */
+.status-selector-container {
+    position: relative;
+}
+
 .status-dropdown {
     position: relative;
     width: 100%;
-    display: inline-block; /* Permite que o dropdown se adapte ao conteúdo */
+    margin-bottom: 10px;
 }
 
-.status-select {
+.status-select,
+.status-select-subtask {
     width: 100%;
-    padding: 10px 15px;
-    border: 1px solid #ced4da;
-    border-radius: 6px;
-    background-color: #fff;
-    appearance: none; /* Remove o estilo padrão do select */
+    padding: 8px 12px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    appearance: none; /* Remove seta padrão do select */
     -webkit-appearance: none;
     -moz-appearance: none;
+    background-color: #fff;
     cursor: pointer;
-    font-size: 1em;
-    color: #495057;
-    padding-right: 30px; /* Espaço para o ícone de seta customizado */
-}
-
-.status-select:focus {
-    border-color: #80bdff;
-    outline: 0;
-    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+    font-size: 0.95em;
+    color: #333;
 }
 
 .status-dropdown .dropdown-icon {
     position: absolute;
-    right: 15px;
+    right: 12px;
     top: 50%;
     transform: translateY(-50%);
-    color: #6c757d;
-    pointer-events: none; /* Garante que o clique passe para o select */
+    color: #777;
+    pointer-events: none; /* Permite clicar no select */
 }
 
-.current-status-display {
-    margin-top: 10px;
-    background-color: #f0f0f0;
-    color: #555;
-    padding: 8px 15px;
-    border-radius: 25px;
+/* Estilos para o display de status atual */
+.current-status-display,
+.current-status-display-subtask {
+    padding: 5px 10px;
+    border-radius: 4px;
     font-size: 0.85em;
     font-weight: bold;
-    text-transform: uppercase;
     text-align: center;
-    display: inline-flex; /* Para se ajustar ao conteúdo */
-    justify-content: center;
-    align-items: center;
+    margin-top: 5px; /* Espaçamento após o select */
 }
 
-/* Classes de cor para o status principal (use as mesmas cores das subtarefas) */
-.current-status-display.status-aguardando { background-color: #ffc107; color: #343a40; }
-.current-status-display.status-em_andamento { background-color: #007bff; color: #fff; }
-.current-status-display.status-concluida { background-color: #28a745; color: #fff; }
-.current-status-display.status-cancelada { background-color: #dc3545; color: #fff; }
+/* Classes de cor para status */
+.status-aberto { background-color: #e0f7fa; color: #00838f; } /* Ciano claro */
+.status-em-progresso { background-color: #fff3e0; color: #ff6f00; } /* Laranja claro */
+.status-concluido { background-color: #e8f5e9; color: #2e7d32; } /* Verde claro */
+.status-pendente { background-color: #ffebee; color: #c62828; } /* Vermelho claro */
+.status-cancelado { background-color: #eceff1; color: #455a64; } /* Cinza azulado */
 
 
-/* Estilos para o campo de data */
-.date-picker-container {
+/* Dropdown de Responsável da Subtarefa */
+.dropdown-container {
     position: relative;
-    width: 100%;
+    width: 100%; /* Ou ajuste conforme necessário */
 }
 
-.date-input {
-    width: calc(100% - 30px); /* Ajusta a largura para o ícone */
-    padding: 10px 15px;
-    border: 1px solid #ced4da;
-    border-radius: 6px;
-    font-size: 1em;
-    color: #495057;
-    background-color: #fff;
-    cursor: pointer;
-}
-
-.date-input:focus {
-    border-color: #80bdff;
-    outline: 0;
-    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
-}
-
-.calendar-icon {
-    position: absolute;
-    right: 10px;
-    top: 50%;
-    transform: translateY(-50%);
-    color: #6c757d;
-    pointer-events: none; /* Garante que o clique passe para o input */
-}
-
-/* Estilo para campos de input e select gerais (se não tiverem classes específicas) */
-.form-group label {
-    display: block;
-    margin-bottom: 8px;
-    font-weight: 600;
-    color: #555;
-    font-size: 0.9em;
-    text-transform: uppercase;
-}
-
-.form-group input[type="text"],
-.form-group select {
-    width: 100%;
-    padding: 10px 15px;
-    border: 1px solid #ced4da;
-    border-radius: 6px;
-    font-size: 1em;
-    color: #495057;
-    background-color: #fff;
-    box-sizing: border-box; /* Inclui padding e border na largura */
-}
-
-.form-group input[type="text"]:focus,
-.form-group select:focus {
-    border-color: #80bdff;
-    outline: 0;
-    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
-}
-
-
-/* Responsividade básica para telas menores */
-@media (max-width: 768px) {
-    .modal-content {
-        width: 95%;
-        margin: 20px;
-    }
-
-    .modal-body {
-        flex-direction: column; /* Empilha as colunas verticalmente */
-        padding: 15px;
-    }
-
-    .modal-left-column {
-        padding-right: 0;
-        border-right: none;
-        border-bottom: 1px solid #e0e0e0; /* Adiciona uma linha divisória abaixo */
-        padding-bottom: 20px;
-        margin-bottom: 20px;
-    }
-
-    .modal-info-panel {
-        padding-left: 0;
-    }
-
-    .subtask-table-header,
-    .subtask-item {
-        grid-template-columns: 1fr; /* Cada item ocupa uma linha */
-        row-gap: 8px; /* Espaço entre as linhas dos itens */
-        padding: 10px;
-    }
-
-    .subtask-table-header {
-        display: none; /* Pode esconder o cabeçalho em telas pequenas */
-    }
-
-    .subtask-column {
-        flex-direction: column; /* Conteúdo da coluna empilhado */
-        align-items: flex-start;
-        padding: 5px 0;
-        border-bottom: 1px dotted #f0f0f0; /* Divisor sutil entre os campos */
-    }
-    .subtask-item .subtask-column:last-child {
-        border-bottom: none;
-    }
-
-    .subtask-name-column {
-        font-size: 1em;
-        font-weight: bold;
-    }
-    .subtask-column span {
-        font-size: 0.9em;
-    }
-
-    /* Ajustes para os dropdowns ficarem maiores em telas pequenas */
-    .dropdown-selected-value,
-    .status-select-subtask,
-    .current-status-display-subtask {
-        width: 100%;
-        box-sizing: border-box;
-    }
-
-    .add-subtask-button {
-        width: 100%;
-        justify-content: center;
-    }
-}
-
-.modal-header {
+.dropdown-selected-value {
+    border: 1px solid #ccc;
+    padding: 8px 12px;
+    border-radius: 5px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 15px 25px;
-    border-bottom: 1px solid #e0e0e0;
-    background-color: #f8f9fa;
-}
-
-.modal-header h2 {
-    margin: 0;
+    cursor: pointer;
+    background-color: #fff;
+    font-size: 0.95em;
     color: #333;
-    font-size: 1.6em;
-    font-weight: 600;
 }
 
-.modal-header-actions {
-    display: flex;
-    align-items: center;
-    gap: 15px; /* Espaço entre os botões de excluir e fechar */
+.dropdown-arrow {
+    margin-left: 10px;
+    transition: transform 0.2s ease;
 }
 
-.close-button {
-    background: none;
-    border: none;
-    font-size: 1.8em;
-    color: #888;
+.dropdown-selected-value:hover .dropdown-arrow {
+    transform: translateY(-50%) rotate(180deg); /* Gira a seta ao abrir */
+}
+
+.dropdown-options {
+    position: absolute;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-height: 150px;
+    overflow-y: auto;
+    z-index: 10;
+    margin-top: 5px;
+}
+
+.dropdown-option {
+    padding: 10px 12px;
     cursor: pointer;
-    transition: color 0.2s ease;
-}
-
-.close-button:hover {
-    color: #555;
-}
-
-/* NOVO: Estilo para o botão de excluir tarefa */
-.delete-task-button {
-    background-color: #dc3545; /* Vermelho Bootstrap */
-    color: white;
-    padding: 8px 15px;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    font-size: 0.9em;
-    font-weight: 500;
-    transition: background-color 0.2s ease, transform 0.1s ease;
     display: flex;
     align-items: center;
     gap: 8px;
-}
-
-.delete-task-button:hover {
-    background-color: #c82333; /* Vermelho mais escuro no hover */
-    transform: translateY(-1px);
-}
-
-.delete-task-button i {
-    font-size: 1.1em;
-}
-
-.form-control, .subtask-responsible-select {
-    width: 100%; /* ou um valor fixo */
-    padding: 8px 12px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    background-color: #fff;
-    font-size: 14px;
-    color: #333;
-    appearance: none; /* Remove a seta padrão do navegador */
-    -webkit-appearance: none; /* Para WebKit browsers */
-    -moz-appearance: none; /* Para Firefox */
-    cursor: pointer;
-    /* Adicione transições se desejar efeitos de hover/focus */
-    transition: border-color 0.2s, box-shadow 0.2s;
-}
-
-.form-control:focus, .subtask-responsible-select:focus {
-    outline: none;
-    border-color: #007bff; /* Cor ao focar */
-    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25); /* Sombra ao focar */
-}
-
-/* Adicionar uma seta customizada se appearance: none for usado */
-.info-item .form-control { /* Para o select principal */
-    background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23000%22%20d%3D%22M287%20197.8L154.7%2065.4c-4.4-4.4-11.4-4.4-15.8%200L5.4%20197.8c-4.4%204.4-4.4%2011.4%200%2015.8l15.8%2015.8c4.4%204.4%2011.4%204.4%2015.8%200l103.7-103.7c4.4-4.4%2011.4-4.4%2015.8%200l103.7%20103.7c4.4%204.4%2011.4%204.4%2015.8%200l15.8-15.8c4.5-4.4%204.5-11.4%20.1-15.8z%22%2F%3E%3C%2Fsvg%3E');
-    background-repeat: no-repeat;
-    background-position: right 10px center;
-    background-size: 10px;
-    padding-right: 30px; /* Espaço para a seta */
-}
-/* ... e para outros selects se precisar */
-.subtask-responsible-select {
-    /* ... estilos específicos para o select da subtarefa */
-    background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23000%22%20d%3D%22M287%20197.8L154.7%2065.4c-4.4-4.4-11.4-4.4-15.8%200L5.4%20197.8c-4.4%204.4-4.4%2011.4%200%2015.8l15.8%2015.8c4.4%204.4%2011.4%204.4%2015.8%200l103.7-103.7c4.4-4.4%2011.4-4.4%2015.8%200l103.7%20103.7c4.4%204.4%2011.4%204.4%2015.8%200l15.8-15.8c4.5-4.4%204.5-11.4%20.1-15.8z%22%2F%3E%3C%2Fsvg%3E');
-    background-repeat: no-repeat;
-    background-position: right 8px center; /* Ajuste se necessário */
-    background-size: 8px; /* Ajuste se necessário */
-    padding-right: 25px;
-}
-
-/* Estilos para as opções dentro do select (limitado) */
-.form-control option, .subtask-responsible-select option {
-    padding: 5px 10px;
-    font-size: 14px;
-    background-color: #fff;
+    font-size: 0.95em;
     color: #333;
 }
-/* No Firefox, algumas propriedades podem ser estilizadas com ::-moz-focus-inner */
-/* Para o Chrome e outros WebKit browsers, ::-webkit-calendar-picker-indicator */
 
-/* Classes que você tinha para o status */
-.status-select, .status-select-subtask {
-    /* Seus estilos para o select de status */
-    width: 100%;
-    padding: 8px 12px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    font-size: 14px;
-    color: #333;
-    appearance: none;
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    cursor: pointer;
-}
-/* Estilos específicos para cada status (manter as classes existentes como .status-aguardando) */
-.status-aguardando { background-color: #ffc107; color: #333; }
-.status-iniciada { background-color: #17a2b8; color: #fff; }
-.status-encerrada { background-color: #28a745; color: #fff; }
-.status-atrasada { background-color: #dc3545; color: #fff; }
-.status-concluida { background-color: #6c757d; color: #fff; } /* Adicione se tiver */
-.status-cancelada { background-color: #f8f9fa; color: #6c757d; } /* Adicione se tiver */
-
-/* Estilos para o display de status atual */
-.current-status-display, .current-status-display-subtask {
-    display: inline-block; /* Ou block, dependendo do layout */
-    padding: 5px 10px;
-    border-radius: 4px;
-    font-weight: bold;
-    text-align: center;
-    margin-top: 5px; /* Ou ajuste a margem */
+.dropdown-option:hover {
+    background-color: #f0f0f0;
 }
 
-/* Estilos para a barra de progresso */
-.progress-bar {
-    height: 10px;
-    background-color: #e9ecef;
-    border-radius: 5px;
-    overflow: hidden;
-}
-
-.progress-bar-fill {
-    height: 100%;
-    background-color: #007bff; /* Cor da barra de progresso */
-    transition: width 0.3s ease-in-out;
-}
-
-/* Outros estilos que você tinha no seu HTML antigo, como .modal-header-actions, etc. */
-.modal-header-actions {
-    display: flex;
-    gap: 10px; /* Espaçamento entre os botões */
+.avatar-sm {
+    display: inline-flex;
+    justify-content: center;
     align-items: center;
-}
-
-.delete-task-button, .close-button, .add-subtask-button, .add-new-subtask-button, .cancel-add-subtask-button {
-    padding: 8px 12px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 14px;
-    transition: background-color 0.2s ease;
-}
-
-.delete-task-button {
-    background-color: #dc3545;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background-color: #007bff; /* Cor padrão para avatar */
     color: white;
-}
-.delete-task-button:hover {
-    background-color: #c82333;
-}
-
-.close-button, .cancel-add-subtask-button {
-    background-color: #6c757d;
-    color: white;
-}
-.close-button:hover, .cancel-add-subtask-button:hover {
-    background-color: #5a6268;
-}
-
-.add-subtask-button, .add-new-subtask-button {
-    background-color: #007bff;
-    color: white;
-}
-.add-subtask-button:hover, .add-new-subtask-button:hover {
-    background-color: #0056b3;
-}
-
-/* Estilos para o input de nome da tarefa */
-.task-title-input {
-    flex-grow: 1; /* Para ocupar o espaço disponível */
-    font-size: 24px; /* Ou o tamanho que você tinha para o h2 */
+    font-size: 0.8em;
     font-weight: bold;
-    border: none;
-    background: transparent;
-    padding: 0;
-    margin: 0;
-    color: inherit; /* Usa a cor do texto do container pai */
-    width: 100%;
-}
-.task-title-input:focus {
-    outline: none;
-    /* Adicione uma borda inferior ou um destaque se desejar */
-    border-bottom: 1px solid #007bff;
+    text-transform: uppercase;
 }
 
-/* Input de data */
+/* Estilos para campos de data */
 .date-picker-container {
     position: relative;
-    display: flex; /* Para alinhar o input e o ícone */
+    display: flex;
     align-items: center;
 }
+
 .date-input {
-    flex-grow: 1;
+    width: 100%;
     padding: 8px 12px;
     border: 1px solid #ccc;
-    border-radius: 4px;
-    font-size: 14px;
-    cursor: pointer;
-    appearance: none; /* Esconde a seta padrão do input date */
-    -webkit-appearance: none;
-    -moz-appearance: none;
+    border-radius: 5px;
+    font-size: 0.95em;
+    color: #333;
+    padding-right: 35px; /* Espaço para o ícone */
+    box-sizing: border-box;
 }
+
 .calendar-icon {
     position: absolute;
-    right: 10px;
-    color: #6c757d;
-    pointer-events: none; /* Permite clicar no input abaixo do ícone */
+    right: 12px;
+    color: #777;
+    pointer-events: none; /* Não interfere com o clique no input */
 }
 
-/* Subtask table styles */
-.subtask-table-header {
-    display: grid;
-    grid-template-columns: 2fr 1fr 1fr; /* Ajuste as proporções */
-    gap: 10px;
-    padding: 8px 0;
-    font-weight: bold;
-    border-bottom: 1px solid #eee;
-    margin-bottom: 10px;
-}
-
-.subtask-item {
-    display: grid;
-    grid-template-columns: 2fr 1fr 1fr; /* Alinhe com o header */
-    gap: 10px;
-    padding: 8px 0;
-    border-bottom: 1px dashed #eee;
-    align-items: center;
-}
-.subtask-item:last-child {
-    border-bottom: none;
-}
-
-.subtask-name-column, .subtask-responsible-column, .subtask-status-column {
-    display: flex;
-    align-items: center;
-    gap: 5px;
-}
-
-.icon-name-task {
-    color: #007bff;
-}
-
-/* Quick add subtask */
-.quick-add-subtask-container {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    margin-top: 20px;
-}
-
-.quick-add-textarea {
+/* Estilos para o select de responsável principal */
+.form-control {
     width: 100%;
-    padding: 10px;
+    padding: 8px 12px;
     border: 1px solid #ccc;
-    border-radius: 4px;
-    resize: vertical; /* Permite redimensionar verticalmente */
-    min-height: 60px;
-}
-
-.quick-add-actions {
-    display: flex;
-    gap: 10px;
-    justify-content: flex-end; /* Alinha botões à direita */
-}
-.add-new-subtask-button {
-    /* Estilo herdado dos botões */
-}
-.cancel-add-subtask-button {
-    /* Estilo herdado dos botões */
-}
-
-.task-name-input {
-    width: 100%; /* Ocupa toda a largura disponível */
-    padding: 10px 15px; /* Mais padding interno para espaçamento */
-    margin-bottom: 20px; /* Espaçamento abaixo do campo */
-    border: 1px solid #ddd; /* Borda sutil */
-    border-radius: 4px; /* Cantos levemente arredondados */
-    font-size: 1.5em; /* Tamanho da fonte maior, ajustável */
-    font-weight: 600; /* Negrito para o nome da tarefa */
-    color: #333; /* Cor do texto */
-    background-color: #f9f9f9; /* Fundo levemente cinza ou branco */
-    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.08); /* Sombra interna sutil para profundidade */
-    transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out; /* Transição suave ao focar */
-}
-
-.task-name-input:focus {
-    border-color: #007bff; /* Borda azul ao focar (ou sua cor primária) */
-    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.25); /* Sombra de foco azulada */
-    outline: none; /* Remove o outline padrão do navegador */
-}
-
-/* Se você tem um h2 para o nome da tarefa que você não quer que apareça quando o input está lá,
-   garanta que a lógica *ngIf no HTML está correta.
-   No seu HTML atual, o h2 aparece *somente* se !tarefa, o que é um pouco estranho.
-   Sugiro que o input substitua o h2 quando a tarefa existir e vice-versa, ou o input esteja sempre visível.
-   Vou assumir que o input deve estar sempre visível para edição do nome.
-*/
-.modal-header h2 {
-    /* Mantenha o estilo do seu h2 se ele tiver algum */
-    font-size: 1.8em;
-    margin-bottom: 15px;
+    border-radius: 5px;
+    background-color: #fff;
+    font-size: 0.95em;
     color: #333;
+    cursor: pointer;
 }
 
-
-/* Você pode querer estilizar o contêiner do modal também para dar mais espaço */
-.modal-header {
-    padding: 20px 25px; /* Aumente o padding do cabeçalho */
-    border-bottom: 1px solid #eee;
-    display: flex; /* Para alinhar o nome e as ações */
-    justify-content: space-between;
-    align-items: center;
-    flex-wrap: wrap; /* Para quebrar linha em telas pequenas */
+/* Wrapper para o select da subtarefa para posicionar a seta */
+.subtask-status-select-wrapper {
+    position: relative;
+    width: 100%; /* Garante que o select ocupe a largura total do wrapper */
 }
 
-.task-name-input {
-    flex-grow: 1; /* Permite que o input ocupe o espaço disponível */
-    margin-right: 20px; /* Espaçamento entre o input e os botões */
-    /* Mantenha as outras propriedades de estilo do input */
+/* O select da subtarefa, removendo a aparência padrão */
+.status-select-subtask {
+    width: 100%;
+    padding: 8px 12px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    appearance: none; /* Remove seta padrão do select */
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background-color: #fff;
+    cursor: pointer;
+    font-size: 0.95em;
+    color: #333;
+    padding-right: 30px; /* Adiciona espaço para a seta customizada */
 }
 
-.modal-header-actions {
-    display: flex;
-    gap: 10px; /* Espaçamento entre os botões de ação */
-}
-
-/* Ajustes gerais de tipografia e layout no modal-body se necessário */
-.modal-body {
-    padding: 20px 25px; /* Padding para o corpo do modal */
-    display: flex;
-    gap: 20px; /* Espaçamento entre as colunas */
-    flex-wrap: wrap; /* Para responsividade */
-}
-
-.modal-left-column,
-.modal-info-panel {
-    flex: 1; /* Ocupam o mesmo espaço */
-    min-width: 300px; /* Garante um tamanho mínimo em telas menores */
+/* A seta customizada para o select da subtarefa */
+.subtask-status-select-wrapper .dropdown-icon {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #777;
+    pointer-events: none; /* Permite clicar no select subjacente */
 }

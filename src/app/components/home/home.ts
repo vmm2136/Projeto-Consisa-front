@@ -66,7 +66,7 @@ constructor(
       return false; 
     }
 
-    if (tarefa.statusTarefa === 'CONCLUIDA' || tarefa.statusTarefa === 'CANCELADA') {
+    if (tarefa.statusTarefa === 'ENCERRADA' || tarefa.statusTarefa === 'CANCELADA') {
       return false;
     }
 
@@ -99,22 +99,26 @@ constructor(
   openTaskDetails(task: Tarefa): void {
     this.tarefaSelecionada = task;
     this.isModalOpen = true;
+    this.cdr.detectChanges();
   }
 
   closeTaskDetails(): void {
     this.isModalOpen = false;
     this.tarefaSelecionada = null; 
+    this.buscarTarefas();
     this.cdr.detectChanges();
   }
 
   openQuickAddTask(status: string): void {
     this.adicionarStatusTarefa = status;
     this.newTaskTitle = ''; 
+    this.cdr.detectChanges();
   }
 
   cancelQuickAddTask(): void {
     this.adicionarStatusTarefa = null;
     this.newTaskTitle = '';
+    this.cdr.detectChanges();
   }
 
    addNewTask(): void {
@@ -164,6 +168,7 @@ constructor(
   handleTarefaDeletada(deletedTaskId: string): void {
       console.log(`Tarefa com ID ${deletedTaskId} foi deletada.`);
       this.buscarTarefas(); 
+      this.cdr.detectChanges();
   }
   
 }

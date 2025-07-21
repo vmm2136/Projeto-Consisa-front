@@ -64,10 +64,10 @@
         <div class="column">
             <div class="column-header">
                 <h3 class="column-title">ITENS CONCLUÍDOS</h3>
-                <span class="item-count">{{ filtrarTarefas('CONCLUIDA').length }}</span>
+                <span class="item-count">{{ filtrarTarefas('ENCERRADA').length }}</span>
             </div>
             <div class="column-content">
-                <div [ngClass]="getTaskCardClass(item)" *ngFor="let item of filtrarTarefas('CONCLUIDA')" (click)="openTaskDetails(item)">
+                <div [ngClass]="getTaskCardClass(item)" *ngFor="let item of filtrarTarefas('ENCERRADA')" (click)="openTaskDetails(item)">
                     <div class="card-top">
                         <span class="card-title">{{item.nomeTarefa}}</span>
                     </div>
