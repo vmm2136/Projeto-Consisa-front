@@ -11,8 +11,10 @@ import { UsuarioService } from '../../services/usuario.service';
 
 
 
+
 @Component({
   selector: 'app-home',
+  
   imports: [NgFor, NgIf, DetalhesTarefa, FormsModule, NgClass],
   templateUrl: './home.html',
   styleUrl: './home.css'

@@ -1,8 +1,14 @@
 <div class="modal-overlay" *ngIf="isOpen" (click)="onClose()">
     <div class="modal-content" (click)="$event.stopPropagation()">
         <div class="modal-header">
-            <h2>{{ tarefa?.nomeTarefa }}</h2>
-             <div class="modal-header-actions"> 
+            <input
+                type="text"
+                class="task-name-input"
+                [(ngModel)]="nomeParaAtualizar"
+                (blur)="atualizarNomeDaTarefa()"
+                placeholder="Nome da Tarefa"
+                *ngIf="tarefa" />
+            <div class="modal-header-actions">
                 <button class="delete-task-button" (click)="deleteCurrentTask()">
                     <i class="fas fa-trash-alt"></i> Excluir Tarefa
                 </button>
@@ -36,8 +42,8 @@
                                                 <i class="fas fa-chevron-down dropdown-arrow"></i>
                                             </div>
                                             <div class="dropdown-options" *ngIf="showSubtaskResponsibleDropdown[sub.id || '']">
-                                                <div class="dropdown-option" *ngFor="let user of availableUsers" (click)="selectSubtaskResponsible(sub, user.name)">
-                                                    <span class="avatar-sm">{{ user.name.charAt(0) }}</span> {{ user.name }}
+                                                <div class="dropdown-option" *ngFor="let user of usuarios" (click)="selectSubtaskResponsible(sub, user)">
+                                                        <span class="avatar-sm">{{ user.nome.charAt(0) }}</span> {{ user.nome }}
                                                 </div>
                                             </div>
                                         </div>
@@ -70,11 +76,12 @@
                                 <button class="cancel-add-subtask-button" (click)="cancelAddSubtask()"><i class="fas fa-times"></i></button>
                             </div>
                         </div>
-                    </div> <button class="add-subtask-button" *ngIf="!addingSubtask" (click)="openAddSubtask()">
+                    </div>
+                    <button class="add-subtask-button" *ngIf="!addingSubtask" (click)="openAddSubtask()">
                         <i class="fas fa-plus"></i> Adicionar uma subtarefa
                     </button>
                 </div>
-                
+
             </div>
 
             <div class="modal-info-panel">
@@ -93,29 +100,42 @@
 
                 <div class="info-item">
                     <h4>Responsável</h4>
-                    <div class="responsible-info dropdown-container">
-                        <div class="dropdown-selected-value" (click)="toggleResponsibleDropdown()">
-                            <ng-template #defaultResponsibleIcon>
-                                <i class="fas fa-question-circle default-icon"></i>
-                            </ng-template>
-                            <span>{{ tarefa?.responsavel || 'Não atribuído' }}</span>
-                            <i class="fas fa-chevron-down dropdown-arrow"></i>
-                        </div>
-                        <div class="dropdown-options" *ngIf="showResponsibleDropdown">
-                            <div class="dropdown-option" *ngFor="let user of availableUsers" (click)="selectResponsible(user.name)">
-                                <span class="avatar-sm">{{ user.name.charAt(0) }}</span> {{ user.name }}
-                            </div>
-                            <div class="dropdown-option add-new" (click)="promptNewResponsible()">
-                                <i class="fas fa-user-plus"></i> Adicionar novo responsável
-                            </div>
-                        </div>
+                    <select
+                        id="responsavel"
+                        *ngIf="tarefa"
+                        [ngModel]="selectedResponsavelId"
+                        (ngModelChange)="selectedResponsavelId = $event"
+                        name="responsavel"
+                        class="form-control">
+                        <option [value]="undefined">Não atribuído</option>
+                        <option *ngFor="let user of usuarios" [value]="user.id">
+                            {{ user.nome }}
+                        </option>
+                    </select>
+                </div>
+
+                <div class="info-item">
+                    <h4>Data de Início</h4>
+                    <div class="date-picker-container">
+                        <input
+                            type="date"
+                            [(ngModel)]="dataInicioParaAtualizar"
+                            (blur)="atualizarDataInicioDaTarefa()"
+                            class="date-input"
+                        />
+                        <i class="fas fa-calendar-alt calendar-icon"></i>
                     </div>
                 </div>
 
                 <div class="info-item">
                     <h4>Data limite</h4>
                     <div class="date-picker-container">
-                        <input type="date" [ngModel]="tarefa?.dataFim" (ngModelChange)="onDateLimitChange($event)" class="date-input">
+                        <input
+                            type="date"
+                            [(ngModel)]="dataFimParaAtualizar"
+                            (blur)="atualizarDataFimDaTarefa()"
+                            class="date-input"
+                        />
                         <i class="fas fa-calendar-alt calendar-icon"></i>
                     </div>
                 </div>
